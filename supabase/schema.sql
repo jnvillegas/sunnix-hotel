@@ -189,3 +189,46 @@ VALUES
   ('203', 'c0000000-0000-0000-0000-000000000001', 'LIBRE'),
   ('204', 'c0000000-0000-0000-0000-000000000003', 'LIBRE')
 ON CONFLICT (numero) DO NOTHING;
+
+-- 6. POLÍTICAS ROW LEVEL SECURITY (RLS)
+ALTER TABLE categorias_habitacion ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir lectura categorias" ON categorias_habitacion;
+CREATE POLICY "Permitir lectura categorias" ON categorias_habitacion FOR SELECT USING (true);
+
+ALTER TABLE habitaciones ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir lectura habitaciones" ON habitaciones;
+CREATE POLICY "Permitir lectura habitaciones" ON habitaciones FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Permitir actualizacion habitaciones" ON habitaciones;
+CREATE POLICY "Permitir actualizacion habitaciones" ON habitaciones FOR ALL USING (true);
+
+ALTER TABLE tarifas_config ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir lectura tarifas" ON tarifas_config;
+CREATE POLICY "Permitir lectura tarifas" ON tarifas_config FOR SELECT USING (true);
+
+ALTER TABLE estadias ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir operacion estadias" ON estadias;
+CREATE POLICY "Permitir operacion estadias" ON estadias FOR ALL USING (true);
+
+ALTER TABLE cajas_sesion ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir operacion cajas" ON cajas_sesion;
+CREATE POLICY "Permitir operacion cajas" ON cajas_sesion FOR ALL USING (true);
+
+ALTER TABLE productos ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir operacion productos" ON productos;
+CREATE POLICY "Permitir operacion productos" ON productos FOR ALL USING (true);
+
+ALTER TABLE consumos_estadia ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir operacion consumos" ON consumos_estadia;
+CREATE POLICY "Permitir operacion consumos" ON consumos_estadia FOR ALL USING (true);
+
+ALTER TABLE pagos_estadia ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir operacion pagos" ON pagos_estadia;
+CREATE POLICY "Permitir operacion pagos" ON pagos_estadia FOR ALL USING (true);
+
+ALTER TABLE perfiles ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir operacion perfiles" ON perfiles;
+CREATE POLICY "Permitir operacion perfiles" ON perfiles FOR ALL USING (true);
+
+ALTER TABLE logs_auditoria ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir operacion logs" ON logs_auditoria;
+CREATE POLICY "Permitir operacion logs" ON logs_auditoria FOR ALL USING (true);
