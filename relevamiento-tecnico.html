@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relevamiento Técnico Inicial - Sistema de Sensores y Auditoría</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --card-bg: rgba(18, 24, 38, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.25);
+      --amber: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --input-bg: rgba(11, 15, 25, 0.7);
+      --input-border: rgba(255, 255, 255, 0.12);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(245, 158, 11, 0.06) 0%, transparent 40%);
+      color: var(--text-main);
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 820px;
+    }
+
+    /* Header */
+    .header-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--amber));
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #ffffff 60%, var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Section Cards */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      transition: border-color 0.2s ease;
+    }
+
+    .section-card:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    /* Form Fields */
+    .field-group {
+      margin-bottom: 18px;
+    }
+
+    .field-group:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 8px;
+    }
+
+    .helper-text {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text-main);
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    /* Option Boxes (Radio / Checkboxes) */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .option-card {
+      background: rgba(11, 15, 25, 0.5);
+      border: 1px solid var(--input-border);
+      padding: 12px 14px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .option-card:hover {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .option-card input {
+      accent-color: var(--accent);
+      width: 17px;
+      height: 17px;
+      cursor: pointer;
+    }
+
+    .option-card span {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    /* Action Buttons */
+    .actions-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      flex: 1;
+      min-width: 180px;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #f1f5f9;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #10b981;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      gap: 8px;
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Print View */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0;
+      }
+      .header-card, .section-card {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: none !important;
+        color: #000000 !important;
+      }
+      h1, .section-title, label {
+        color: #000000 !important;
+        -webkit-text-fill-color: initial !important;
+      }
+      input, select, textarea {
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #000000 !important;
+      }
+      .actions-bar, .badge {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Header -->
+    <div class="header-card">
+      <div class="badge">
+        <span class="badge-dot"></span> Relevamiento Técnico Inicial
+      </div>
+      <h1>Auditoría y Automatización de Habitaciones</h1>
+      <p class="subtitle">
+        Cuestionario diagnóstico para dimensionar el equipamiento de sensores inalámbricos Zigbee, 
+        cobertura de red e integración con el sistema de gestión actual.
+      </p>
+    </div>
+
+    <form id="relevamientoForm">
+      
+      <!-- Sección 1 -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon">🚪</div>
+          <div class="section-title">1. Alcance y Distribución Física</div>
+        </div>
+
+        <div class="field-group">
+          <label for="cantHabitaciones">¿Cuántas habitaciones / puertas en total se equiparán en esta etapa?</label>
+          <input type="number" id="cantHabitaciones" placeholder="Ej: 12" min="1" value="12">
+          <div class="helper-text">Permite determinar la cantidad exacta de sensores Sonoff SNZB-04P requeridos.</div>
+        </div>
+
+        <div class="field-group">
+          <label>Distribución física de las habitaciones:</label>
+          <div class="options-grid">
+            <label class="option-card">
+              <input type="radio" name="distribucion" value="Planta baja - Pasillo cerrado" checked>
+              <span>Planta baja (Pasillo cerrado)</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="distribucion" value="Dos o más plantas (Pisos)">
+              <span>Dos o más plantas (Pisos)</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="distribucion" value="Cocheras / Patios al aire libre">
+              <span>Cocheras individuales abiertas</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Material de las puertas y marcos:</label>
+          <div class="options-grid">
+            <label class="option-card">
+              <input type="checkbox" name="material" value="Madera" checked>
+              <span>Madera estándar</span>
+            </label>
+            <label class="option-card">
+              <input type="checkbox" name="material" value="Aluminio">
+              <span>Aluminio</span>
+            </label>
+            <label class="option-card">
+              <input type="checkbox" name="material" value="Chapa / Metal">
+              <span>Chapa o hierro metálico</span>
+            </label>
+          </div>
+          <div class="helper-text">Importante: las puertas de metal requieren separación de 1 cm para el imán.</div>
+        </div>
+      </div>
+
+      <!-- Sección 2 -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon">📡</div>
+          <div class="section-title">2. Infraestructura de Red y Servidor</div>
+        </div>
+
+        <div class="field-group">
+          <label>¿Disponen de una PC en recepción que permanezca encendida 24/7?</label>
+          <div class="options-grid">
+            <label class="option-card">
+              <input type="radio" name="pcRecepcion" value="Sí, encendida 24hs" checked>
+              <span>Sí, PC fija las 24 hs</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="pcRecepcion" value="No / Se apaga por turnos">
+              <span>No / Se apaga en momentos</span>
+            </label>
+          </div>
+          <div class="helper-text">Si hay PC 24hs, el Hub USB Sonoff se conecta directamente allí sin costo extra.</div>
+        </div>
+
+        <div class="field-group">
+          <label for="ubicacionRouter">Ubicación del módem / router principal de Internet:</label>
+          <input type="text" id="ubicacionRouter" placeholder="Ej: Adentro de la oficina de recepción, a 15 metros de las suites">
+        </div>
+      </div>
+
+      <!-- Sección 3 -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon">🔔</div>
+          <div class="section-title">3. Reglas de Alerta y Control Operativo</div>
+        </div>
+
+        <div class="field-group">
+          <label>¿Cómo desean recibir la alerta si se abre una suite que figura LIBRE (fraude)?</label>
+          <div class="options-grid">
+            <label class="option-card">
+              <input type="checkbox" name="alertas" value="Alarma sonora y visual en pantalla de recepción" checked>
+              <span>Alarma en pantalla de recepción</span>
+            </label>
+            <label class="option-card">
+              <input type="checkbox" name="alertas" value="Mensaje instantáneo de WhatsApp/Telegram a los dueños" checked>
+              <span>WhatsApp / Telegram al dueño</span>
+            </label>
+            <label class="option-card">
+              <input type="checkbox" name="alertas" value="Registro silencioso en informe de auditoría">
+              <span>Solo registro en auditoría</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>¿Desean utilizar los sensores para auditar los tiempos de limpieza de las mucamas?</label>
+          <div class="options-grid">
+            <label class="option-card">
+              <input type="radio" name="controlMucamas" value="Sí, medir rotación y tiempo de mucamas" checked>
+              <span>Sí (Medir rotación y tiempos reales)</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="controlMucamas" value="No, solo antifraude de habitaciones">
+              <span>No (Solo antifraude de huéspedes)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 4 -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon">🔗</div>
+          <div class="section-title">4. Enlace Técnico con el Sistema Actual</div>
+        </div>
+
+        <div class="field-group">
+          <label for="contactoTecnico">Contacto técnico o responsable de sistemas (Programador / Soporte):</label>
+          <input type="text" id="contactoTecnico" placeholder="Ej: Luis (Desarrollador) - Teléfono / Email">
+          <div class="helper-text">
+            Solo se requerirá coordinar un usuario de consulta en <strong>solo lectura</strong> a la base de datos de habitaciones para no tocar su código.
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="observaciones">Observaciones o requerimientos especiales adicionales:</label>
+          <textarea id="observaciones" rows="3" placeholder="Ej: El portón de entrada principal también se quiere evaluar para una segunda etapa..."></textarea>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions-bar">
+        <button type="button" class="btn btn-primary" onclick="copiarResumen()">
+          📋 Copiar Resumen para WhatsApp / Email
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="window.print()">
+          🖨️ Imprimir o Guardar PDF
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <div id="toast" class="toast">
+    ✅ ¡Cuestionario copiado al portapapeles con éxito!
+  </div>
+
+  <script>
+    function copiarResumen() {
+      const cant = document.getElementById('cantHabitaciones').value || '12';
+      const dist = document.querySelector('input[name="distribucion"]:checked')?.value || 'No especificada';
+      
+      const materiales = Array.from(document.querySelectorAll('input[name="material"]:checked'))
+        .map(el => el.value).join(', ') || 'No especificado';
+
+      const pc = document.querySelector('input[name="pcRecepcion"]:checked')?.value || 'No especificado';
+      const router = document.getElementById('ubicacionRouter').value || 'Recepción';
+
+      const alertas = Array.from(document.querySelectorAll('input[name="alertas"]:checked'))
+        .map(el => el.value).join(' + ') || 'En pantalla';
+
+      const mucamas = document.querySelector('input[name="controlMucamas"]:checked')?.value || 'Sí';
+      const contacto = document.getElementById('contactoTecnico').value || 'A coordinar';
+      const obs = document.getElementById('observaciones').value || 'Ninguna';
+
+      const texto = `📋 *RELEVAMIENTO TÉCNICO INICIAL - SENSORES Y AUDITORÍA*\n` +
+        `----------------------------------------\n` +
+        `🚪 *Habitaciones:* ${cant} puertas.\n` +
+        `🏢 *Distribución:* ${dist}.\n` +
+        `🧱 *Material marcos/puertas:* ${materiales}.\n` +
+        `💻 *PC Recepción 24hs:* ${pc}.\n` +
+        `📡 *Ubicación Router:* ${router}.\n` +
+        `🔔 *Tipo de Alertas:* ${alertas}.\n` +
+        `🧹 *Control de Mucamas:* ${mucamas}.\n` +
+        `🔗 *Contacto Técnico:* ${contacto}.\n` +
+        `📝 *Notas adicionales:* ${obs}\n` +
+        `----------------------------------------\n` +
+        `*Equipamiento estimado:* ${cant} Sensores Sonoff SNZB-04P (Zigbee 3.0) + 1 Coordinador Gateway USB.`;
+
+      navigator.clipboard.writeText(texto).then(() => {
+        mostrarToast();
+      }).catch(() => {
+        alert("Resumen generado (copiar manualmente):\n\n" + texto);
+      });
+    }
+
+    function mostrarToast() {
+      const toast = document.getElementById('toast');
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
