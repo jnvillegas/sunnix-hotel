@@ -340,8 +340,14 @@
     
     <!-- Header -->
     <div class="header-card">
-      <div class="badge">
-        <span class="badge-dot"></span> Relevamiento Técnico Inicial
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+        <div class="badge" style="margin-bottom: 0;">
+          <span class="badge-dot"></span> Relevamiento Técnico Inicial
+        </div>
+        <div style="font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 6px;">
+          <span>Contacto / Consultas:</span>
+          <a href="https://wa.me/5493813045007" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: none;">+54 9 381 304-5007</a>
+        </div>
       </div>
       <h1>Auditoría y Automatización de Habitaciones</h1>
       <p class="subtitle">
@@ -479,10 +485,10 @@
         </div>
 
         <div class="field-group">
-          <label for="contactoTecnico">Contacto técnico o responsable de sistemas (Programador / Soporte):</label>
-          <input type="text" id="contactoTecnico" placeholder="Ej: Luis (Desarrollador) - Teléfono / Email">
+          <label for="contactoTecnico">Contacto técnico o soporte del sistema actual:</label>
+          <input type="text" id="contactoTecnico" placeholder="Ej: Responsable de sistemas / Proveedor de software actual (Teléfono o Email)">
           <div class="helper-text">
-            Solo se requerirá coordinar un usuario de consulta en <strong>solo lectura</strong> a la base de datos de habitaciones para no tocar su código.
+            Solo se requerirá coordinar un usuario de consulta en <strong>solo lectura</strong> a la base de datos de habitaciones para no alterar su operación diaria.
           </div>
         </div>
 
@@ -494,11 +500,14 @@
 
       <!-- Actions -->
       <div class="actions-bar">
-        <button type="button" class="btn btn-primary" onclick="copiarResumen()">
-          📋 Copiar Resumen para WhatsApp / Email
+        <button type="button" class="btn btn-primary" onclick="enviarWhatsApp()">
+          📲 Enviar directo por WhatsApp
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="copiarResumen()">
+          📋 Copiar Texto
         </button>
         <button type="button" class="btn btn-secondary" onclick="window.print()">
-          🖨️ Imprimir o Guardar PDF
+          🖨️ Imprimir / Guardar PDF
         </button>
       </div>
 
@@ -510,7 +519,7 @@
   </div>
 
   <script>
-    function copiarResumen() {
+    function generarTexto() {
       const cant = document.getElementById('cantHabitaciones').value || '12';
       const dist = document.querySelector('input[name="distribucion"]:checked')?.value || 'No especificada';
       
@@ -527,29 +536,40 @@
       const contacto = document.getElementById('contactoTecnico').value || 'A coordinar';
       const obs = document.getElementById('observaciones').value || 'Ninguna';
 
-      const texto = `📋 *RELEVAMIENTO TÉCNICO INICIAL - SENSORES Y AUDITORÍA*\n` +
-        `----------------------------------------\n` +
-        `🚪 *Habitaciones:* ${cant} puertas.\n` +
-        `🏢 *Distribución:* ${dist}.\n` +
-        `🧱 *Material marcos/puertas:* ${materiales}.\n` +
-        `💻 *PC Recepción 24hs:* ${pc}.\n` +
-        `📡 *Ubicación Router:* ${router}.\n` +
-        `🔔 *Tipo de Alertas:* ${alertas}.\n` +
-        `🧹 *Control de Mucamas:* ${mucamas}.\n` +
-        `🔗 *Contacto Técnico:* ${contacto}.\n` +
-        `📝 *Notas adicionales:* ${obs}\n` +
-        `----------------------------------------\n` +
-        `*Equipamiento estimado:* ${cant} Sensores Sonoff SNZB-04P (Zigbee 3.0) + 1 Coordinador Gateway USB.`;
+      return `📋 *RELEVAMIENTO TÉCNICO INICIAL - SENSORES Y AUDITORÍA*\\n` +
+        `----------------------------------------\\n` +
+        `🚪 *Habitaciones:* ${cant} puertas.\\n` +
+        `🏢 *Distribución:* ${dist}.\\n` +
+        `🧱 *Material marcos/puertas:* ${materiales}.\\n` +
+        `💻 *PC Recepción 24hs:* ${pc}.\\n` +
+        `📡 *Ubicación Router:* ${router}.\\n` +
+        `🔔 *Tipo de Alertas:* ${alertas}.\\n` +
+        `🧹 *Control de Mucamas:* ${mucamas}.\\n` +
+        `🔗 *Contacto Técnico:* ${contacto}.\\n` +
+        `📝 *Notas adicionales:* ${obs}\\n` +
+        `----------------------------------------\\n` +
+        `*Equipamiento estimado:* ${cant} Sensores Sonoff SNZB-04P (Zigbee 3.0) + 1 Coordinador Gateway USB.\\n` +
+        `📞 *Contacto / Soporte:* +54 9 381 304-5007`;
+    }
 
+    function copiarResumen() {
+      const texto = generarTexto();
       navigator.clipboard.writeText(texto).then(() => {
-        mostrarToast();
+        mostrarToast("✅ ¡Cuestionario copiado al portapapeles!");
       }).catch(() => {
-        alert("Resumen generado (copiar manualmente):\n\n" + texto);
+        alert("Resumen generado (copiar manualmente):\\n\\n" + texto);
       });
     }
 
-    function mostrarToast() {
+    function enviarWhatsApp() {
+      const texto = generarTexto();
+      const url = `https://wa.me/5493813045007?text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+    }
+
+    function mostrarToast(msg) {
       const toast = document.getElementById('toast');
+      if (msg) toast.textContent = msg;
       toast.style.display = 'flex';
       setTimeout(() => {
         toast.style.display = 'none';
